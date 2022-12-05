@@ -42,9 +42,9 @@ const getTrainees = async (fullname, result) => {
     });
 }
 
-const getInfo = async (SSN, result) => {
+const getSeasonBySsn = async (SSN, result) => {
     var pool = await conn;
-    var sqlString = `EXEC information_of_trainee @SSN`;
+    var sqlString = `Select year from SeasonTrainee where SSN_trainee=@SSN`;
     return await pool.request()
     .input('SSN', sql.Char(12), SSN)
     .query(sqlString, function(err, data){
@@ -134,5 +134,4 @@ const getSeason = async (result) => {
 };
 
 
-
-module.exports = {getAllAYear,getTrainees, getInfo, getAll, addNew, getBestAchievement, getResult, getCompany, getSeason}
+module.exports = {getAllAYear,getTrainees, getAll, addNew, getBestAchievement, getResult, getCompany, getSeason, getSeasonBySsn}

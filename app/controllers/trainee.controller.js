@@ -1,4 +1,4 @@
-const {getAllAYear,getTrainees, getInfo, getAll, addNew, getBestAchievement, getResult, getCompany, getSeason} = require('../models/trainee.model');
+const {getAllAYear,getTrainees, getAll, addNew, getBestAchievement, getResult, getCompany, getSeason, getSeasonBySsn} = require('../models/trainee.model');
 
 const getBestAchievementBySSN = function(req, res){
     getBestAchievement(req.params.SSN, (err, data) => {
@@ -32,8 +32,8 @@ const getResultBySsnByYear = function(req, res){
     });
 };
 
-const getTraineeBySSN = function(req, res){
-    getInfo(req.params.SSN, function(err,data){
+const getSeasonBySSN = function(req, res){
+    getSeasonBySsn(req.params.SSN, function(err,data){
         res.send({result: data, error: err})
     });
 };
@@ -58,5 +58,5 @@ const addANewTrainee = function(req, res){
 
 
 
-module.exports = {getAllTrainees, getTraineeBySSN, getAllTraineesAYear, getTraineeByFullname, addANewTrainee, getBestAchievementBySSN, getResultBySsnByYear, getAllCompany, getAllSeason}
+module.exports = {getAllTrainees, getSeasonBySSN, getAllTraineesAYear, getTraineeByFullname, addANewTrainee, getBestAchievementBySSN, getResultBySsnByYear, getAllCompany, getAllSeason}
 
