@@ -12,6 +12,12 @@ const getAllTrainees = function(req, res){
     });
 };
 
+const login = function(req, res){
+    login.user=req.body.user;
+    login.password=req.body.password;
+    res.send("jfhdhfdj")
+};
+
 const getAllTraineesAYear = function(req, res){
     // console.log(req.params.year)
     getAllAYear(req.params.year, (err, data) => {
@@ -58,5 +64,5 @@ const addANewTrainee = function(req, res){
 
 
 
-module.exports = {getAllTrainees, getSeasonBySSN, getAllTraineesAYear, getTraineeByFullname, addANewTrainee, getBestAchievementBySSN, getResultBySsnByYear, getAllCompany, getAllSeason}
+module.exports = {getAllTrainees, getSeasonBySSN, getAllTraineesAYear, getTraineeByFullname, addANewTrainee, getBestAchievementBySSN, getResultBySsnByYear, getAllCompany, getAllSeason, login}
 
