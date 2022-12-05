@@ -13,9 +13,35 @@ const getAll = async (result) => {
     });
 };
 
-const getInfo = async (fullname, result) => {
+const getAllAYear = async (year, result) => {
+    var pool = await conn
+    var sqlString = `EXEC all_trainee_a_year ${year}`;
+    return await pool.request()
+    .query(sqlString, function(err, data){
+        if(data.recordset.length > 0){
+            result(null, data.recordset)
+        }else{
+            result(err, null)
+        }
+    });
+};
+
+const getTrainees = async (fullname, result) => {
     var pool = await conn;
     var sqlString = `EXEC info_trainee @fullname=${fullname}`;
+    return await pool.request()
+    .query(sqlString, function(err, data){
+        if(data.recordset.length > 0){
+            result(null, data.recordset)
+        }else{
+            result(err, null)
+        }
+    });
+}
+
+const getInfo = async (SSN, result) => {
+    var pool = await conn;
+    var sqlString = `EXEC information_of_trainee ${SSN}`;
     return await pool.request()
     .query(sqlString, function(err, data){
         if(data.recordset.length > 0){
@@ -48,4 +74,4 @@ const addNew = async (newData, result) => {
     });
 }
 
-module.exports = {getInfo, getAll, addNew}
+module.exports = {getAllAYear,getTrainees, getInfo, getAll, addNew}

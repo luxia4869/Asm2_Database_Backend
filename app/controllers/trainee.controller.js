@@ -1,4 +1,4 @@
-const {getAll, getInfo, addNew} = require('../models/trainee.model');
+const {getAll,getTrainees, getAllAYear, getInfo, addNew} = require('../models/trainee.model');
 
 const getAllTrainees = function(req, res){
     getAll((err, data) => {
@@ -6,8 +6,22 @@ const getAllTrainees = function(req, res){
     });
 };
 
+const getAllTraineesAYear = function(req, res){
+    console.log(req.params.year)
+    getAllAYear(req.params.year, (err, data) => {
+        res.send({result: data, error: err});
+    });
+};
+
+
 const getTraineeByFullname = function(req, res){
-    getInfo(req.params.fullname, function(err,data){
+    getTrainees(req.params.fullname, function(err,data){
+        res.send({result: data, error: err})
+    });
+};
+
+const getTraineeBySSN = function(req, res){
+    getInfo(req.params.SSN, function(err,data){
         res.send({result: data, error: err})
     });
 };
@@ -18,5 +32,5 @@ const addANewTrainee = function(req, res){
     });
 };
 
-module.exports = {getAllTrainees, getTraineeByFullname, addANewTrainee}
+module.exports = {getAllTrainees, getTraineeBySSN, getAllTraineesAYear, getTraineeByFullname, addANewTrainee}
 
