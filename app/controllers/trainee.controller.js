@@ -1,4 +1,10 @@
-const {getAll,getTrainees, getAllAYear, getInfo, addNew} = require('../models/trainee.model');
+const {getAllAYear,getTrainees, getInfo, getAll, addNew, getBestAchievement, getResult, getCompany, getSeason} = require('../models/trainee.model');
+
+const getBestAchievementBySSN = function(req, res){
+    getBestAchievement(req.params.SSN, (err, data) => {
+        res.send({result: data, error: err});
+    });
+};
 
 const getAllTrainees = function(req, res){
     getAll((err, data) => {
@@ -7,7 +13,7 @@ const getAllTrainees = function(req, res){
 };
 
 const getAllTraineesAYear = function(req, res){
-    console.log(req.params.year)
+    // console.log(req.params.year)
     getAllAYear(req.params.year, (err, data) => {
         res.send({result: data, error: err});
     });
@@ -20,8 +26,26 @@ const getTraineeByFullname = function(req, res){
     });
 };
 
+const getResultBySsnByYear = function(req, res){
+    getResult(req.body, function(err,data){
+        res.send({result: data, error: err})
+    });
+};
+
 const getTraineeBySSN = function(req, res){
     getInfo(req.params.SSN, function(err,data){
+        res.send({result: data, error: err})
+    });
+};
+
+const getAllCompany = function(req, res){
+    getCompany(function(err,data){
+        res.send({result: data, error: err})
+    });
+};
+
+const getAllSeason = function(req, res){
+    getSeason(function(err,data){
         res.send({result: data, error: err})
     });
 };
@@ -32,5 +56,7 @@ const addANewTrainee = function(req, res){
     });
 };
 
-module.exports = {getAllTrainees, getTraineeBySSN, getAllTraineesAYear, getTraineeByFullname, addANewTrainee}
+
+
+module.exports = {getAllTrainees, getTraineeBySSN, getAllTraineesAYear, getTraineeByFullname, addANewTrainee, getBestAchievementBySSN, getResultBySsnByYear, getAllCompany, getAllSeason}
 

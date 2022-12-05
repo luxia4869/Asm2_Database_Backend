@@ -9,7 +9,7 @@ var config = {
     server: 'DESKTOP-11SBD1F\\SQLEXPRESS',
     user: `${login.user}`,
     password: `${login.password}`,
-    database: 'ASSM2',
+    database: 'ASS2',
     driver: 'msnodesqlv8',
     options: {
         trustedConnection:true

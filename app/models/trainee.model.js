@@ -15,8 +15,9 @@ const getAll = async (result) => {
 
 const getAllAYear = async (year, result) => {
     var pool = await conn
-    var sqlString = `EXEC all_trainee_a_year ${year}`;
+    var sqlString = `EXEC information_of_trainee_in_season @year`;
     return await pool.request()
+    .input('year', sql.Int, year)
     .query(sqlString, function(err, data){
         if(data.recordset.length > 0){
             result(null, data.recordset)
@@ -28,8 +29,9 @@ const getAllAYear = async (year, result) => {
 
 const getTrainees = async (fullname, result) => {
     var pool = await conn;
-    var sqlString = `EXEC info_trainee @fullname=${fullname}`;
+    var sqlString = `EXEC information_of_trainee @fullname`;
     return await pool.request()
+    .input('fullname', sql.VarChar(50), fullname)
     .query(sqlString, function(err, data){
         if(data.recordset.length > 0){
             result(null, data.recordset)
@@ -41,7 +43,37 @@ const getTrainees = async (fullname, result) => {
 
 const getInfo = async (SSN, result) => {
     var pool = await conn;
-    var sqlString = `EXEC information_of_trainee ${SSN}`;
+    var sqlString = `EXEC information_of_trainee @SSN`;
+    return await pool.request()
+    .input('SSN', sql.Char(12), SSN)
+    .query(sqlString, function(err, data){
+        if(data.recordset.length > 0){
+            result(null, data.recordset)
+        }else{
+            result(err, null)
+        }
+    });
+}
+
+const getResult = async (newData, result) => {
+    var pool = await conn;
+    const res = newData;
+    var sqlString = `SELECT * from result_of_a_trainee(@SSN,@year)`;
+    return await pool.request()
+    .input('SSN', sql.Char(12), res.SSN)
+    .input('year', sql.Int, res.year)
+    .query(sqlString, function(err, data){
+        if(data.recordset.length > 0){
+            result(null, data.recordset)
+        }else{
+            result(err, null)
+        }
+    });
+}
+
+const getBestAchievement = async (SSN, result) => {
+    var pool = await conn;
+    var sqlString = `EXEC Best_achievement ${SSN}`;
     return await pool.request()
     .query(sqlString, function(err, data){
         if(data.recordset.length > 0){
@@ -74,4 +106,32 @@ const addNew = async (newData, result) => {
     });
 }
 
-module.exports = {getAllAYear,getTrainees, getInfo, getAll, addNew}
+const getCompany = async (result) => {
+    var pool = await conn
+    var sqlString = "SELECT cnumber, Name FROM Company";
+    return await pool.request()
+    .query(sqlString, function(err, data){
+        if(data.recordset.length > 0){
+            result(null, data.recordset)
+        }else{
+            result(err, null)
+        }
+    });
+};
+
+const getSeason = async (result) => {
+    var pool = await conn
+    var sqlString = "SELECT year FROM Season";
+    return await pool.request()
+    .query(sqlString, function(err, data){
+        if(data.recordset.length > 0){
+            result(null, data.recordset)
+        }else{
+            result(err, null)
+        }
+    });
+};
+
+
+
+module.exports = {getAllAYear,getTrainees, getInfo, getAll, addNew, getBestAchievement, getResult, getCompany, getSeason}
