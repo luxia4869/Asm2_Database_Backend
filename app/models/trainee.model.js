@@ -1,3 +1,4 @@
+const { VarChar } = require('mssql');
 const {conn, sql} = require('../../connect');
 
 const getAll = async (result) => {
@@ -94,7 +95,7 @@ const addNew = async (newData, result) => {
     .input('lname', sql.VarChar(15), res.lname)
     .input('address', sql.VarChar(100), res.address)
     .input('phone', sql.Char(10), res.phone)
-    .input('DoB', sql.Date, result.dob)
+    .input('DoB', sql.Char(10), res.dob)
     .input('photo', sql.NVarChar(2083), res.photo)
     .input('company_ID', sql.Char(4), res.cnumber)
     .query(sqlString, function(err, data){
