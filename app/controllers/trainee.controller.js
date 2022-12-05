@@ -27,7 +27,7 @@ const getTraineeByFullname = function(req, res){
 };
 
 const getResultBySsnByYear = function(req, res){
-    getResult(req.body, function(err,data){
+    getResult(req.params, function(err,data){
         res.send({result: data, error: err})
     });
 };

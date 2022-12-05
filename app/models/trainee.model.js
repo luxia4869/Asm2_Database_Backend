@@ -59,6 +59,7 @@ const getSeasonBySsn = async (SSN, result) => {
 const getResult = async (newData, result) => {
     var pool = await conn;
     const res = newData;
+    console.log(res)
     var sqlString = `SELECT * from result_of_a_trainee(@SSN,@year)`;
     return await pool.request()
     .input('SSN', sql.Char(12), res.SSN)
@@ -74,8 +75,10 @@ const getResult = async (newData, result) => {
 
 const getBestAchievement = async (SSN, result) => {
     var pool = await conn;
-    var sqlString = `EXEC Best_achievement ${SSN}`;
+    console.log(SSN)
+    var sqlString = `EXEC Best_achievement @SSN`;
     return await pool.request()
+    .input('SSN', sql.Char(12), SSN)
     .query(sqlString, function(err, data){
         if(data.recordset.length > 0){
             result(null, data.recordset)
