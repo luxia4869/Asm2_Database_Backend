@@ -87,16 +87,16 @@ const getBestAchievement = async (SSN, result) => {
 const addNew = async (newData, result) => {
     var pool = await conn;
     const res = newData;
-    var sqlString = `EXECUTE insert_data @ssn, @fname, @lname, @address, @phone, @photo, @company_ID`
+    var sqlString = `EXECUTE insert_data @ssn, @fname, @lname, @address, @DoB, @phone, @photo, @company_ID`
     return await pool.request()
     .input('ssn', sql.Char(12), res.ssn)
     .input('fname', sql.VarChar(15), res.fname)
     .input('lname', sql.VarChar(15), res.lname)
     .input('address', sql.VarChar(100), res.address)
     .input('phone', sql.Char(10), res.phone)
-    // .input('DoB', sql.Date, result.DoB)
+    .input('DoB', sql.Date, result.dob)
     .input('photo', sql.NVarChar(2083), res.photo)
-    .input('company_ID', sql.Char(4), res.company_ID)
+    .input('company_ID', sql.Char(4), res.cnumber)
     .query(sqlString, function(err, data){
         if(err){
             result(err, null)
