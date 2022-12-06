@@ -1,7 +1,6 @@
 const { VarChar } = require('mssql');
 const {conn, sql} = require('../../connect');
 
-var t = 1;
 
 const getAll = async (result) => {
     var pool = await conn
@@ -17,7 +16,6 @@ const getAll = async (result) => {
 };
 
 const getAllAYear = async (year, result) => {
-    t=2;
     var pool = await conn
     var sqlString = `EXEC information_of_trainee_in_season @year`;
     return await pool.request()

@@ -7,9 +7,9 @@ var config = {
     password: `${login.password}`,
     database: 'ASS2',
     driver: 'msnodesqlv8',
-    options: {
-        trustedConnection:true
-    }
+    // options: {
+    //     trustedConnection:true
+    // }
 };
 
 const conn = new sql.ConnectionPool(config)
