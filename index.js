@@ -3,8 +3,8 @@ const cors = require("cors");
 // var {login} = require('../app/controllers/')
 // const Routes = require("./app/routes/routes");
 global.login = {
-    user: "",
-    password: ""
+    user: "sa",
+    password: "12"
 }
 const user = {
     userName: "sa",
@@ -13,8 +13,9 @@ const user = {
 var app = express();
 // app.post('/user', login);
 const getLogin = function(req, res){
-    const userName = req.body.user
+    const userName = req.body.userName
     const password = req.body.password
+    console.log(userName, password)
     if (userName!=user.userName || password!=user.password) {
         res.send("Username or password are not correct!")
     }

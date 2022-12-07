@@ -51,6 +51,7 @@ const getAllSeason = function(req, res){
 };
 
 const addANewTrainee = function(req, res){
+    console.log("hfhfd")
     addNew(req.body, function(err, data){
         res.send({result: data, error: err})
     });

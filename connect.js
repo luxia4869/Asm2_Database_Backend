@@ -1,5 +1,9 @@
 var sql = require('mssql/msnodesqlv8')
 
+// global.login = {
+//     user: "sa",
+//     password: "12"
+// }
 
 var config = {
     server: 'DESKTOP-11SBD1F\\SQLEXPRESS',
@@ -7,9 +11,6 @@ var config = {
     password: `${login.password}`,
     database: 'ASS2',
     driver: 'msnodesqlv8',
-    // options: {
-    //     trustedConnection:true
-    // }
 };
 
 const conn = new sql.ConnectionPool(config)

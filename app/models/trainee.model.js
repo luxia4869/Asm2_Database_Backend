@@ -92,27 +92,48 @@ const getBestAchievement = async (SSN, result) => {
 const addNew = async (newData, result) => {
     var pool = await conn;
     const res = newData;
-    var sqlString = `EXECUTE insert_data @ssn, @fname, @lname, @address, @DoB, @phone, @photo, @company_ID`
-    return await pool.request()
-    .input('ssn', sql.Char(12), res.ssn)
-    .input('fname', sql.VarChar(15), res.fname)
-    .input('lname', sql.VarChar(15), res.lname)
-    .input('address', sql.VarChar(100), res.address)
-    .input('phone', sql.Char(10), res.phone)
-    .input('DoB', sql.Char(10), res.dob)
-    .input('photo', sql.NVarChar(2083), res.photo)
-    .input('company_ID', sql.Char(4), res.cnumber)
-    .query(sqlString, function(err, data){
-        if(err){
-            result(err, null)
-        }else{
-            result(null, newData)
+    var sqlStr = `SELECT SSN FROM Trainee WHERE SSN=@SSN`
+    await pool.request()
+    .input('SSN', sql.Char(12), res.ssn)
+    .query(sqlStr, function(err, dt){
+        if (dt.recordset.length>0){
+            return result("CCCD already exists", null)
+        }
+        else {
+            sqlStr = `SELECT phone FROM Person WHERE phone=@phone`
+            pool.request()
+            .input('phone', sql.Char(10), res.phone)
+            .query(sqlStr, function(err, dt){
+                if (dt.recordset.length>0){
+                    return result("Phone already exists", null)
+                }    
+                else {
+                    sqlStr= `EXECUTE insert_data @ssn, @fname, @lname, @address, @DoB, @phone, @photo, @company_ID`
+                    console.log(res)
+                    return pool.request()
+                    .input('ssn', sql.Char(12), res.ssn)
+                    .input('fname', sql.VarChar(15), res.fname)
+                    .input('lname', sql.VarChar(15), res.lname)
+                    .input('address', sql.VarChar(100), res.address)
+                    .input('phone', sql.Char(10), res.phone)
+                    .input('DoB', sql.Char(10), res.dob)
+                    .input('photo', sql.NVarChar(2083), res.photo)
+                    .input('company_ID', sql.Char(4), res.cnumber)
+                    .query(sqlStr, function(err, data){
+                        if(err){
+                            result(err, null)
+                        }else{
+                            result(null, newData)
+                        }
+                    });
+                }
+            })            
         }
     });
+
 }
 
 const getCompany = async (result) => {
-    console.log(t)
     var pool = await conn
     var sqlString = "SELECT cnumber, Name FROM Company";
     return await pool.request()
